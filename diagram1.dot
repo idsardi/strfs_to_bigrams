@@ -1,0 +1,99 @@
+digraph G {
+ rankdir = LR ;
+ splines = ortho
+ ranksep = "0.75"
+ nodesep = "0.1"
+ edge [arrowhead=none]
+ subgraph cluster_clock {
+    t1 -> t2 [arrowhead=normal]
+    t2 -> t3 -> tn [style=invis]
+    tn -> t1 [arrowhead=normal]
+    t3[label="...",color=white]
+    label = "clock";
+    labelloc = t
+  }
+
+  subgraph cluster_strf {
+    {rank=same fn f2 f1}
+ #   f1 -> f2 -> f3 -> fn [style=invis]
+    f3[label="...",color=white]
+    label="STRFs"
+  }
+
+  subgraph cluster_cs {
+      t1fn -> t2fn -> t3fn -> tnfn [style=invis]
+      t1f1 -> t2f1 -> t3f1 -> tnf1 [style=invis]
+      t1f2 -> t2f2 -> t3f2 -> tnf2 [style=invis]
+      t1f3 -> t2f3 -> t3f3 -> tnf3 [style=invis]
+    
+      t1,f1 -> t1f1
+      t1,f2 -> t1f2
+      t1,f3 -> t1f3 [style=invis]
+      t1,fn -> t1fn
+      t2,f1 -> t2f1
+      t2,f2 -> t2f2
+      t2,f3 -> t2f3 [style=invis]
+      t2,fn -> t2fn
+      t3,f1 -> t3f1 [style=invis]
+      t3,f2 -> t3f2 [style=invis]
+      t3,f3 -> t3f3 [style=invis]
+      t3,fn -> t3fn [style=invis]
+      tn,f1 -> tnf1
+      tn,f2 -> tnf2
+      tn,f3 -> tnf3 [style=invis]
+      tn,fn -> tnfn
+      
+      t3f1, t3f2, t3f3, t3fn, t1f3, t2f3, tnf3 [color=white,label="..."]
+      t1f2, t2f1, tnfn [style=filled,color=lightgreen]
+      label="coincidence field"
+      labelloc = t
+  }
+  
+  subgraph cluster_cp {
+      p1 -> p2 -> p3 -> pn [style=invis]
+      d1 -> d2 -> d3 -> dn [style=invis]
+      k1 -> k2 -> k3 -> kn [style=invis]
+      a1 -> a2 -> a3 -> an [style=invis]
+
+      t1f1,t1f2 -> p1
+      t2f1,t2f2 -> p2
+    #  t3f1,t3f2 -> p3 [style=invis]
+    #  tnf1,tnf2 -> pn
+      t2f1,t1f2 -> p2
+     # t3f1,t2f2 -> p3 [style=invis]
+      t1fn -> a1
+      t2fn -> a2
+     # t3fn -> a3 [style=invis]
+      tnfn -> an
+      
+      d1, d2, d3, dn, p3, k3, a3 [color=white,label="..."]
+      
+      p2,an [style=filled,color=lightgreen]
+      
+      label="phone-time field"
+      labelloc = b
+  }
+  
+  subgraph cluster_uni {
+      q k a p
+      p1, p2, pn -> p
+      a1, a2, an -> a
+      p, a [style=filled,color=lightgreen]
+      q [color=white, label="..."]
+      label="unigrams"
+  }
+  
+  subgraph cluster_bi {
+      pp -> kk -> aa [style=invis]
+      pa -> ap [style=invis]
+      ka -> ak [style=invis]
+      pk -> kp -> qq [style=invis]
+      p2, an -> pa
+      p1, a2 -> pa
+    #  p1, p2, pn -> pp
+      pa [style=filled,color=lightgreen]
+      qq [color=white, label="..."]
+      label="open bigrams"
+  }
+ 
+}
